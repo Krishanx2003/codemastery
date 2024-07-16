@@ -1,6 +1,7 @@
-import blockContent from './blockContent'
-import category from './category'
-import post from './post'
-import author from './author'
+import course from './course';
+import author from './author';
+import category from './category';
+import module from './module';
+import siteSettings from './siteSettings';
 
-export const schemaTypes = [post, author, category, blockContent]
+export const schemaTypes = [course, author, category, module, siteSettings];

@@ -1,72 +1,58 @@
 
-type ReactI18NextChildren = string;  
-
-type Base = {
-  _createdAt: string;
+export interface Section {
   _id: string;
-  _rev: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  lessons: Lesson[];
+}
+
+export interface Course {
+  _id: string;
+  title: string;
+  description: string;
+  content: any; // Adjust this type according to your actual content structure
+  image: any; // Adjust this type according to your actual image structure
+  slug: {
+    current: string;
+  };
+  sections: Section[];
+}
+
+export interface Lesson {
+  _id: string;
+  title: string;
+  description: string;
+  image?: any; // or the appropriate type for image
+  slug: {
+    current: string;
+  };
+  section?: {
+    _ref: string;
+  };
+  content: any; // or a more specific type if you have one for block content
+}
+// types/sanity.ts
+export interface Image {
+  _type: 'image';
+  asset: {
+    _ref: string;
+    _type: 'reference';
+  };
+}
+
+export interface Block {
+  _key: string;
   _type: string;
-  _updatedAt: string;
-};
-
-export interface Post extends Base {
-  datetime: ReactI18NextChildren | Iterable<ReactI18NextChildren>;
-  author: Author;
-  body: Block[];
-  categories: Category[];
-  mainImage: Image;
-  slug: Slug;
-  title: string;
-  description: string;
+  children: Array<{
+    _key: string;
+    _type: string;
+    text: string;
+  }>;
 }
 
-interface Author extends Base {
-  datetime: ReactI18NextChildren | Iterable<ReactI18NextChildren>;
-  description: string;
+export interface CourseContentProps {
+  content: Block[];
   image: Image;
-  name: string;
-  slug: Slug;
-}
-
-interface Image {
-  _type: "image";
-  asset: Reference;
-}
-
-interface Reference {
-  _type: "slug";
-  current: string;
-}
-
-interface Slug {
-  _type: "slug";
-  current: string;
-}
-
-interface Block {
-  _key: string;
-  _type: "block";
-  children: Span[];
-  markDefs: any[];
-  style: "normal" | "h1" | "h2" | "h3" | "h4" | "bloackquote";
-}
-
-interface Span {
-  _key: string;
-  _type: "span";
-  marks: string[];
-  text: string;
-}
-
-interface Category extends Base {
-  description: string;
-  title: string;
-}
-
-export interface IProject {
-  title: string;
-  description: string;
-  authorGithub: string;
-  projectRepo: string;
-  projectLink?: string;
 }

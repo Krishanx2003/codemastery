@@ -1,8 +1,8 @@
-import { MdLocalOffer as icon } from 'react-icons/md';
+import { MdPlayCircleOutline as icon } from 'react-icons/md';
 
 export default {
-  name: 'category',
-  title: 'Category',
+  name: 'module',
+  title: 'Module',
   type: 'document',
   icon,
   fields: [
@@ -24,6 +24,11 @@ export default {
       name: 'description',
       title: 'Description',
       type: 'text',
+    },
+    {
+      name: 'videoUrl',
+      title: 'Video URL',
+      type: 'url',
     },
   ],
   preview: {
