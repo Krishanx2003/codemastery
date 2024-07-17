@@ -43,7 +43,7 @@ const HomePage = () => {
               </div>
               <div className="relative p-4">
                 <h2 className="text-lg font-semibold mb-2 group-hover:text-gray-800">{course.title}</h2>
-                <p className="text-gray-600 group-hover:text-gray-800">{course.description}</p>
+       
               </div>
             </a>
           </Link>

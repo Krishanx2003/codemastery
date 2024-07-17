@@ -1,5 +1,16 @@
 import { MdAccountCircle as icon } from 'react-icons/md';
 
+
+
+export interface Author {
+  _id: string;
+  _createdAt: string;
+  name: string;
+  slug: { current: string };
+  image: { asset: { url: string } };
+  bio: string;
+}
+
 export default {
   name: 'author',
   title: 'Author',
@@ -40,4 +51,4 @@ export default {
       media: 'image',
     },
   },
-};
+} as const;

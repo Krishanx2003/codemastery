@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from 'react';
+// src/app/(courses)/[...slug]/page.tsx
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import { client, urlFor } from '../../../lib/createClient';
 import { Course, Section, Lesson } from '../../../types/sanity';
 import CourseHeader from '../../../components/CourseHeader';
-import CourseModules from '../../../components/CourseModules';
 import CourseContent from '../../../components/CourseContent';
+import SideNavbar from '../../../components/SideNavbar';
 
 interface Props {
   course: Course;
@@ -16,21 +16,22 @@ interface Props {
 }
 
 const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
-  const [courseSlug, sectionSlug, lessonSlug] = slug;
+  const [courseSlug] = slug;
 
   try {
-    // Fetch course
     const courseQuery = `*[_type == "course" && slug.current == $courseSlug][0]{
       _id,
       title,
       description,
       content,
       image,
-      "sections": *[_type == "section" && references(^._id)]{
+      "slug": slug.current,
+      "sections": sections[]->{
         _id,
         title,
         "slug": slug.current,
-        "lessons": *[_type == "lesson" && references(^._id)]{
+        description,
+        "lessons": lessons[]->{
           _id,
           title,
           description,
@@ -43,9 +44,14 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
     const course = await client.fetch<Course>(courseQuery, { courseSlug });
     if (!course) return null;
 
+    console.log('Fetched Course:', course); // Log the fetched course
+
     return {
       course,
-      sections: course.sections || [],
+      sections: course.sections.map((section: Section) => ({
+        ...section,
+        lessons: section.lessons || [],
+      })),
       lessons: course.sections.flatMap((section) => section.lessons || []),
     };
   } catch (error) {
@@ -54,9 +60,10 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
   }
 };
 
+
 const CoursePage = () => {
   const pathname = usePathname();
-  const slug = pathname.split('/').slice(2); // Assuming the slug is after /courses/
+  const slug = pathname.split('/').slice(2);
   const [courseData, setCourseData] = useState<Props | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -65,6 +72,7 @@ const CoursePage = () => {
       if (slug.length) {
         try {
           const fetchedData = await fetchCourseData(slug);
+          console.log('Fetched Data:', fetchedData); // Log fetched data
           setCourseData(fetchedData);
         } catch (error) {
           console.error('Failed to fetch course data:', error);
@@ -87,18 +95,22 @@ const CoursePage = () => {
 
   const { course, sections, lessons } = courseData;
 
+  console.log('Course Data in CoursePage:', courseData); // Log course data
+
   return (
-    <div className="px-4 py-8">
-      <CourseHeader title={course.title} />
-      <CourseContent content={course.content} image={course.image} />
-      <CourseModules course={course} />
-      {sections.map((section) => (
-        <div key={section._id} className="mb-4">
-          <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {section.lessons.map((lesson) => (
-              <Link key={lesson._id} href={`/courses/${course.slug.current}/${section.slug}/${lesson.slug}`} passHref>
-                <a className="group relative block p-4 bg-white rounded-md shadow-md hover:bg-gray-100">
+    <div className="flex">
+      <div className="w-64 pr-4 border-r border-gray-200">
+        <SideNavbar course={course} sections={sections} /> {/* Pass course data and sections to SideNavbar */}
+      </div>
+      <div className="flex-1 pl-4">
+        <CourseHeader title={course.title} />
+        <CourseContent content={course.content} image={course.image} />
+        {sections.map((section) => (
+          <div key={section._id} className="mb-4">
+            <h2 className="text-2xl font-bold mb-4">{section.title}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {section.lessons.map((lesson) => (
+                <div key={lesson._id} className="group relative block p-4 bg-white rounded-md shadow-md hover:bg-gray-100">
                   <div className="absolute inset-0 rounded-md overflow-hidden">
                     <img
                       src={lesson.image ? urlFor(lesson.image).width(400).height(225).fit('crop').url() : '/placeholder.png'}
@@ -110,12 +122,12 @@ const CoursePage = () => {
                     <h3 className="text-lg font-semibold mb-2 group-hover:text-gray-800">{lesson.title}</h3>
                     <p className="text-gray-600 group-hover:text-gray-800">{lesson.description}</p>
                   </div>
-                </a>
-              </Link>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

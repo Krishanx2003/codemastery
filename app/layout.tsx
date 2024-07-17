@@ -1,8 +1,12 @@
+// src/app/layout.tsx
+
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import SideNavbar from '../components/SideNavbar'; // Import the SideNavbar component
+
+import { client } from '../lib/createClient';
+import { Course } from '../types/sanity';
 
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
@@ -21,21 +25,24 @@ const fontBody = Inter({
 });
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+ 
+
   return (
     <html lang="en">
-      <body 
+      <body
         className={cn(
           'antialiased',
           fontHeading.variable,
-          fontBody.variable
+          fontBody.variable,
+          'flex',
         )}
       >
-        <Navbar />
-        <div className="flex">
-          <SideNavbar />
-          <main className="flex-1 ml-64 p-4">{children}</main> {/* Adjusted to add margin-left for the SideNavbar */}
+        
+        <div className="flex-1 flex flex-col">
+          <Navbar />
+          <main className="flex-1 p-8">{children}</main>
+          <Footer />
         </div>
-        <Footer />
       </body>
     </html>
   );

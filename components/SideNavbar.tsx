@@ -1,55 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { client } from '../lib/createClient';
-import { Course, Section } from '../types/sanity';
+// src/components/SideNavbar.tsx
+import React from 'react';
 import Link from 'next/link';
+import { Course, Section, Lesson } from '../types/sanity';
 
-const SideNavbar: React.FC = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
+interface SideNavbarProps {
+  course: Course;
+  sections: (Section & { lessons: Lesson[] })[];
+}
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const fetchedCourses = await client.fetch<Course[]>(`*[_type == "course"]{
-          _id,
-          title,
-          slug,
-          "sections": *[_type == "section" && references(^._id)]{
-            _id,
-            title,
-            slug
-          }
-        }`);
-        setCourses(fetchedCourses);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
+const SideNavbar: React.FC<SideNavbarProps> = ({ course, sections }) => {
+  console.log('SideNavbar course:', course); // Log the course data
+  console.log('SideNavbar sections:', sections); // Log the sections data
 
-    fetchCourses();
-  }, []);
+  if (!course || !sections || sections.length === 0) {
+    return <div>No sections available</div>; // Render message if course or sections are undefined or empty
+  }
 
   return (
-    <div className="w-64 h-full bg-gray-800 text-white p-4 fixed">
-      <h2 className="text-xl font-bold mb-4">Courses</h2>
+    <nav className="sidebar">
       <ul>
-        {courses.map((course) => (
-          <li key={course._id} className="mb-2">
-            <Link href={`/courses/${course.slug.current}`} className="block py-2 px-4 rounded hover:bg-gray-700">
-              {course.title}
-            </Link>
-            <ul className="ml-4 mt-2">
-              {course.sections.map((section) => (
-                <li key={section._id}>
-                  <Link href={`/courses/${course.slug.current}/${section.slug.current}`} className="block py-1 px-3 rounded hover:bg-gray-600">
-                    {section.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
+        <li key={course._id}>
+          <Link href={`/courses/${course.slug.current}`}>
+            {course.title}
+          </Link>
+          <ul>
+            {sections.map((section) => (
+              <li key={section._id}>
+                <Link href={`/courses/${course.slug.current}/sections/${section.slug}`}>
+                  {section.title}
+                </Link>
+                <ul>
+                  {section.lessons.map((lesson) => (
+                    <li key={lesson._id}>
+                      <Link href={`/courses/${course.slug.current}/sections/${section.slug}/lessons/${lesson.slug.current}`}>
+                        {lesson.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </li>
       </ul>
-    </div>
+    </nav>
   );
 };
 

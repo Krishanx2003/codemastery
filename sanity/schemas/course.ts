@@ -38,15 +38,8 @@ export default {
       title: 'Content',
       type: 'array',
       of: [
-        {
-          type: 'block',
-        },
-        {
-          type: 'image',
-          options: {
-            hotspot: true,
-          },
-        },
+        { type: 'block' },
+        { type: 'image', options: { hotspot: true } },
       ],
     },
     {
@@ -85,6 +78,12 @@ export default {
       title: 'Modules',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'module' } }],
+    },
+    {
+      name: 'sections',
+      title: 'Sections',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'section' } }],
     },
   ],
   preview: {
