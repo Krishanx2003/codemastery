@@ -1,24 +1,18 @@
 import React from 'react';
-import { PortableText, PortableTextComponents } from '@portabletext/react';
-import CodeBlock from './CodeBlock';
+import { PortableText } from '@portabletext/react';
 import { Lesson } from '../types/sanity';
 
-interface Props {
+interface LessonContentProps {
   lesson: Lesson;
 }
 
-const components: PortableTextComponents = {
-  types: {
-    code: ({ value }) => <CodeBlock {...value} />,
-  },
-};
-
-const LessonContent: React.FC<Props> = ({ lesson }) => {
+const LessonContent: React.FC<LessonContentProps> = ({ lesson }) => {
   return (
-    <div className="px-4 py-8 prose prose-lg max-w-none">
-      <PortableText value={lesson.content} components={components} />
+    <div>
+      <h3>{lesson.title}</h3>
+      <PortableText value={lesson.content} />
     </div>
   );
-}
+};
 
 export default LessonContent;

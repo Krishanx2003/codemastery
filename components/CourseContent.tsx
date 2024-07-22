@@ -1,3 +1,5 @@
+// src/components/CourseContent.tsx
+
 import React from 'react';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { CourseContentProps } from '../types/sanity';
@@ -17,10 +19,12 @@ const components: PortableTextComponents = {
 };
 
 const CourseContent: React.FC<CourseContentProps> = ({ content, image }) => {
+  const imageUrl = image && image.asset._ref ? urlFor(image).url() : '/placeholder.png';
+
   return (
     <section className="mb-8">
       <img
-        src={urlFor(image).url()}
+        src={imageUrl}
         alt={content[0]?.children[0]?.text || 'Course image'}
         className="mb-4"
       />

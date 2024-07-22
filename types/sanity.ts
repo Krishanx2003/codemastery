@@ -1,4 +1,6 @@
-// src/types/sanity.ts
+// types/sanity.ts
+
+
 export interface Image {
   _type: 'image';
   asset: {
@@ -6,6 +8,8 @@ export interface Image {
     _type: 'reference';
   };
 }
+
+
 
 export interface Block {
   _key: string;
@@ -19,7 +23,7 @@ export interface Block {
 
 export interface CourseContentProps {
   content: Block[];
-  image: Image;
+  image?: Image;
 }
 
 export interface Lesson {
@@ -43,6 +47,7 @@ export interface Section {
     current: string;
   };
   description: string;
+  content: Block[];
   lessons: Lesson[];
 }
 
@@ -51,7 +56,7 @@ export interface Course {
   title: string;
   description: string;
   content: Block[];
-  image: { asset: { _ref: string; _type: string } };
+  image: Image;
   slug: {
     current: string;
   };

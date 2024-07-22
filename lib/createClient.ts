@@ -12,8 +12,22 @@ export const client = createClient({
   useCdn: false,
 });
 
+
 const builder = imageUrlBuilder(client);
 
-export const urlFor = (source: any) => {
+
+
+export function urlFor(source: any) {
+  if (!source || !source.asset || !source.asset._ref) {
+    return {
+      url: () => '/placeholder.png',
+      width: () => ({
+        height: () => ({
+          fit: () => ({ url: () => '/placeholder.png' }),
+        }),
+      }),
+    };
+  }
+
   return builder.image(source);
-};
+}
