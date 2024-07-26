@@ -1,5 +1,3 @@
-// src/components/SideNavbar.tsx
-
 import React from 'react';
 import Link from 'next/link';
 import { Course, Section, Lesson } from '../types/sanity';
@@ -7,7 +5,7 @@ import { Course, Section, Lesson } from '../types/sanity';
 interface SideNavbarProps {
   course: Course;
   sections: Section[];
-  onSelectSection: (section: Section) => void;
+  onSelectSection: (section: Section | null) => void;
   onSelectLesson: (lesson: Lesson) => void;
 }
 
@@ -20,7 +18,7 @@ const SideNavbar: React.FC<SideNavbarProps> = ({ course, sections, onSelectSecti
     <nav className="sidebar">
       <ul>
         <li key={course._id}>
-          <button  className="text-lg font-bold" onClick={() => onSelectSection(null)}>
+          <button className="text-lg font-bold" onClick={() => onSelectSection(null)}>
             {course.title}
           </button>
           <ul>

@@ -1,5 +1,3 @@
-// src/app/(courses)/[...slug]/page.tsx
-
 "use client"
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -74,7 +72,7 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
   }
 };
 
-const CoursePage = () => {
+const CoursePage: React.FC = () => {
   const pathname = usePathname();
   const slug = pathname.split('/').slice(2);
   const [courseData, setCourseData] = useState<Props | null>(null);
