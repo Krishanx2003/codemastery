@@ -79,6 +79,8 @@ const CoursePage = () => {
   const slug = pathname.split('/').slice(2);
   const [courseData, setCourseData] = useState<Props | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,47 +108,30 @@ const CoursePage = () => {
   }
 
   const { course, sections } = courseData;
-  const [courseSlug, sectionSlug, lessonSlug] = slug;
 
-  const section = sections.find(sec => sec.slug.current === sectionSlug);
-  const lesson = section?.lessons.find(les => les.slug.current === lessonSlug);
+  const handleSelectSection = (section: Section | null) => {
+    setSelectedSection(section);
+    setSelectedLesson(null); // Reset lesson selection when a section is selected
+  };
+
+  const handleSelectLesson = (lesson: Lesson) => {
+    setSelectedLesson(lesson);
+  };
 
   return (
     <div className="flex">
       <div className="w-64 pr-4 border-r border-gray-200">
-        <SideNavbar course={course} sections={sections} />
+        <SideNavbar course={course} sections={sections} onSelectSection={handleSelectSection} onSelectLesson={handleSelectLesson} />
       </div>
       <div className="flex-1 pl-4">
         <CourseHeader title={course.title} />
         <CourseContent content={course.content} image={course.image} />
-        {/* Conditional Rendering based on Slug */}
-        {lesson ? (
-          <LessonContent lesson={lesson} />
-        ) : section ? (
-          <SectionContent section={section} />
+        {selectedLesson ? (
+          <LessonContent lesson={selectedLesson} />
+        ) : selectedSection ? (
+          <SectionContent section={selectedSection} />
         ) : (
-          sections.map((sec) => (
-            <div key={sec._id} className="mb-4">
-              <h2 className="text-2xl font-bold mb-4">{sec.title}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {sec.lessons.map((les) => (
-                  <div key={les._id} className="group relative block p-4 bg-white rounded-md shadow-md hover:bg-gray-100">
-                    <div className="absolute inset-0 rounded-md overflow-hidden">
-                      <img
-                        src={les.image ? urlFor(les.image).width(400).height(225).fit('crop').url() : '/placeholder.png'}
-                        alt={les.title}
-                        className="object-cover object-center w-full h-full"
-                      />
-                    </div>
-                    <div className="relative p-4">
-                      <h3 className="text-lg font-semibold mb-2 group-hover:text-gray-800">{les.title}</h3>
-                      <p className="text-gray-600 group-hover:text-gray-800">{les.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))
+          <div>Select a section or lesson to view the content</div>
         )}
       </div>
     </div>

@@ -16,7 +16,6 @@ export const client = createClient({
 const builder = imageUrlBuilder(client);
 
 
-
 export function urlFor(source: any) {
   if (!source || !source.asset || !source.asset._ref) {
     return {
