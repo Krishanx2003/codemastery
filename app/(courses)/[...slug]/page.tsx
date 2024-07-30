@@ -25,10 +25,9 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
       description,
       content,
       image {
-        _type,
         asset->{
-          _ref,
-          _type
+          _id,
+          url
         }
       },
       "slug": slug.current,
@@ -38,16 +37,21 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
         "slug": slug.current,
         description,
         content,
+        image {
+          asset->{
+            _id,
+            url
+          }
+        },
         "lessons": lessons[]->{
           _id,
           title,
           description,
           content,
           image {
-            _type,
             asset->{
-              _ref,
-              _type
+              _id,
+              url
             }
           },
           "slug": slug.current
@@ -123,7 +127,7 @@ const CoursePage: React.FC = () => {
       </div>
       <div className="flex-1 pl-4">
         <CourseHeader title={course.title} />
-        <CourseContent content={course.content} image={course.image} />
+        <CourseContent content={course.content} image={urlFor(course.image).url()} />
         {selectedLesson ? (
           <LessonContent lesson={selectedLesson} />
         ) : selectedSection ? (

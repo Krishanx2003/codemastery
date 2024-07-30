@@ -1,134 +1,83 @@
-"use client";
 
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { urlFor } from "@/lib/createClient";
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
 
 export default function Navbar() {
-  const [active, setActive] = useState<string | null>(null);
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-
-  const handleSearch = async () => {
-    if (query.trim() === '') {
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/search?query=${query}`);
-      if (response.ok) {
-        const data = await response.json();
-        setResults(data);
-      } else {
-        console.error('Search error:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Search error:', error);
-    }
-  };
-
+  const [isDarkMode, setIsDarkMode] = useState(false)
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary-color">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="lg:hidden">
-            <MenuIcon className="h-6 w-6" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-            <MountainIcon className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
-          <div className="grid gap-2 py-6">
-            <Link href="#" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-              Home
-            </Link>
-            <Link href="#" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-              About
-            </Link>
-            <Link href="#" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-              Services
-            </Link>
-            <Link href="#" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-              Contact
-            </Link>
-          </div>
-        </SheetContent>
-      </Sheet>
-      <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-        <MountainIcon className="h-6 w-6" />
-        <span className="sr-only">Acme Inc</span>
-      </Link>
-      <nav className="ml-auto hidden lg:flex gap-6 text-white">
-        <Link href="/" className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50" prefetch={false}>
-          Home
+    <header className={`w-full bg-background py-4 px-6 shadow-sm transition-colors ${isDarkMode ? "dark" : ""}`}>
+      <div className="container mx-auto flex items-center justify-between">
+        <Link href="#" className="flex items-center gap-2" prefetch={false}>
+          <MountainIcon className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold">Acme Docs</span>
         </Link>
-        <Link href="#" className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50" prefetch={false}>
-          About
-        </Link>
-        <Link href="#" className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50" prefetch={false}>
-          Services
-        </Link>
-        <Link href="#" className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50" prefetch={false}>
-          Contact
-        </Link>
-      </nav>
-      {/* Search Bar */}
-      <div className="ml-6 hidden lg:flex items-center space-x-2 relative">
-        <Input
-          type="text"
-          className="px-3 py-2 w-80"
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <Button onClick={handleSearch} className="px-3 py-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+        <nav className="hidden md:flex items-center gap-6">
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </Button>
-        {results.length > 0 && (
-          <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-md">
-            {results.map((result: any) => (
-              <Link key={result._id} href={`/courses/${result.slug.current}`} passHref legacyBehavior>
-                <a className="flex items-center p-4 border-b hover:bg-gray-100">
-                  <img
-                    src={result.image ? urlFor(result.image).width(50).height(50).fit('crop').url() : '/placeholder.png'}
-                    alt={result.title}
-                    className="w-12 h-12 object-cover rounded-md mr-4"
-                  />
-                  <div>
-                    <h3 className="font-semibold">{result.title}</h3>
-                    <p className="text-sm text-gray-600">{result.description}</p>
-                  </div>
-                </a>
-              </Link>
-            ))}
-          </div>
-        )}
+            Explore
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Courses
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Docs
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Blog
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Changelog
+          </Link>
+        </nav>
+        <div className="flex items-center gap-4">
+          <Link
+            href="#"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Sign in
+          </Link>
+          <Link
+            href="#"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/50"
+            prefetch={false}
+          >
+            Get started
+          </Link>
+          <button
+            className="rounded-md p-2 text-foreground hover:bg-muted transition-colors"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+          >
+            {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
     </header>
-  );
+  )
 }
 
-function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
+function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -142,12 +91,11 @@ function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>
-  );
+  )
 }
+
 
 function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -165,8 +113,37 @@ function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
     </svg>
-  );
+  )
 }
+
+
+function SunIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="m4.93 4.93 1.41 1.41" />
+      <path d="m17.66 17.66 1.41 1.41" />
+      <path d="M2 12h2" />
+      <path d="M20 12h2" />
+      <path d="m6.34 17.66-1.41 1.41" />
+      <path d="m19.07 4.93-1.41 1.41" />
+    </svg>
+  )
+}
+
 
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -182,8 +159,8 @@ function XIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
     </svg>
-  );
+  )
 }

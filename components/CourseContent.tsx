@@ -18,7 +18,10 @@ const components: PortableTextComponents = {
 };
 
 const CourseContent: React.FC<CourseContentProps> = ({ content, image }) => {
-  const imageUrl = image && image.asset._ref ? urlFor(image).url() : '/placeholder.png';
+  // Ensure image and image.asset are defined before accessing image.asset._ref
+  const imageUrl = image?.asset?._ref
+    ? urlFor(image).url()
+    : '/placeholder.png';
 
   const altText = content?.[0]?.children?.[0]?.text || 'Course image';
 

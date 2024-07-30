@@ -1,13 +1,9 @@
-// src/app/layout.tsx
+"use client";
 
-"use client"
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-
-import { client } from '../lib/createClient';
-import { Course } from '../types/sanity';
-
+import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import '../styles/globals.css';
@@ -24,11 +20,14 @@ const fontBody = Inter({
   variable: '--font-body',
 });
 
-export default function Layout({ children }: { children: React.ReactNode }) {
- 
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
 
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body
         className={cn(
           'antialiased',
@@ -37,12 +36,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           'flex',
         )}
       >
-        
-        <div className="flex-1 flex flex-col">
-          <Navbar />
-          <main className="flex-1 p-8">{children}</main>
-          <Footer />
-        </div>
+        {/* <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        > */}
+          <div className="flex-1 flex flex-col">
+            <Navbar />
+            <main className="flex-1 p-0">{children}</main>
+            <Footer />
+          </div>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );

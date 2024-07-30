@@ -1,7 +1,7 @@
 import "../../styles/globals.css"
 
 export const metadata = {
-  title: "LabGenius",
+  title: "codemastery",
   description: "AI Website",
 };
 
