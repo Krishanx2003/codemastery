@@ -1,7 +1,10 @@
-"use client"
+// src/app/(courses)/[...slug]/page.tsx
+
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { client, urlFor } from '../../../lib/createClient';
+import { client } from '../../../lib/createClient';
 import { Course, Section, Lesson } from '../../../types/sanity';
 import CourseHeader from '../../../components/CourseHeader';
 import CourseContent from '../../../components/CourseContent';
@@ -25,9 +28,10 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
       description,
       content,
       image {
+        _type,
         asset->{
-          _id,
-          url
+          _ref,
+          _type
         }
       },
       "slug": slug.current,
@@ -37,21 +41,16 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
         "slug": slug.current,
         description,
         content,
-        image {
-          asset->{
-            _id,
-            url
-          }
-        },
         "lessons": lessons[]->{
           _id,
           title,
           description,
           content,
           image {
+            _type,
             asset->{
-              _id,
-              url
+              _ref,
+              _type
             }
           },
           "slug": slug.current
@@ -127,11 +126,11 @@ const CoursePage: React.FC = () => {
       </div>
       <div className="flex-1 pl-4">
         <CourseHeader title={course.title} />
-        <CourseContent content={course.content} image={urlFor(course.image).url()} />
+        <CourseContent content={course.content} image={course.image} />
         {selectedLesson ? (
           <LessonContent lesson={selectedLesson} />
         ) : selectedSection ? (
-          <SectionContent section={selectedSection} />
+          <SectionContent section={selectedSection} lessons={selectedSection.lessons} onSelectLesson={handleSelectLesson} />
         ) : (
           <div>Select a section or lesson to view the content</div>
         )}

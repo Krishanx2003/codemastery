@@ -1,10 +1,10 @@
-import { MdLocalMovies as icon } from 'react-icons/md';
+import { defineType } from 'sanity';
+import blockContent from './blockContent'; // Adjust the import path as needed
 
-export default {
+export default defineType({
   name: 'course',
   title: 'Course',
   type: 'document',
-  icon,
   fields: [
     {
       name: 'title',
@@ -40,6 +40,7 @@ export default {
       of: [
         { type: 'block' },
         { type: 'image', options: { hotspot: true } },
+        { type: 'codeBlock' }, // Use the custom type here
       ],
     },
     {
@@ -92,4 +93,4 @@ export default {
       media: 'image',
     },
   },
-};
+});
