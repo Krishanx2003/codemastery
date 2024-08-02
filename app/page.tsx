@@ -1,4 +1,3 @@
-// src/app/page.tsx
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -9,7 +8,6 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button";
 import Hero from '@/components/Hero';
 import Testimonial from '@/components/Testimonial';
-// import { ClockIcon, DiffIcon, ClipboardListIcon } from '@/components/icons';
 
 const HomePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -23,7 +21,7 @@ const HomePage = () => {
           description,
           content,
           image,
-          slug
+          "slug": slug.current
         }`);
         console.log('Fetched courses:', fetchedCourses);
         setCourses(fetchedCourses);
@@ -74,7 +72,7 @@ const HomePage = () => {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {courses.map((course) => (
           <div key={course._id} className="group relative overflow-hidden rounded-lg border bg-background transition-all hover:shadow-lg">
-            <Link href={`/course/${course.slug.current}`} className="absolute inset-0 z-10" prefetch={false}>
+            <Link href={`/course/${course.slug}`} className="absolute inset-0 z-10" prefetch={false}>
               <span className="sr-only">View course</span>
             </Link>
             <div className="flex h-40 items-center justify-center bg-muted p-6">
@@ -85,20 +83,6 @@ const HomePage = () => {
               />
             </div>
             <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
-            <div className="mb-4 flex flex-wrap gap-2 text-sm font-medium">
-              {/* <div className="flex items-center gap-1.5">
-                <ClockIcon className="h-4 w-4 text-muted-foreground" />
-                <span>12 hours</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <DiffIcon className="h-4 w-4 text-muted-foreground" />
-                <span>Intermediate</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <ClipboardListIcon className="h-4 w-4 text-muted-foreground" />
-                <span>No prerequisites</span>
-              </div> */}
-            </div>
             <Button size="sm" className="w-full">
               Start Course
             </Button>
