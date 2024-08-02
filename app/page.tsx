@@ -9,7 +9,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button";
 import Hero from '@/components/Hero';
 import Testimonial from '@/components/Testimonial';
-import { ClockIcon, DiffIcon, ClipboardListIcon } from '@/components/icons';
+// import { ClockIcon, DiffIcon, ClipboardListIcon } from '@/components/icons';
 
 const HomePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);

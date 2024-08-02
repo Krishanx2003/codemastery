@@ -3,6 +3,7 @@ import React from 'react';
 import BlockContent from '@sanity/block-content-to-react';
 import { CourseContentProps } from '../types/sanity';
 import { urlFor } from '../lib/createClient';
+import CodeBlock from './CodeBlock';
 
 // Define serializers for custom rendering of Sanity block content
 const serializers = {
@@ -25,6 +26,9 @@ const serializers = {
     },
     image: (props: any) => {
       return <img src={urlFor(props.node.asset).url()} alt={props.node.alt} />;
+    },
+    code: (props: any) => {
+      return <CodeBlock code={props.node.code} />;
     }
   },
   list: (props: any) => {
