@@ -23,7 +23,6 @@ const HomePage = () => {
           image,
           "slug": slug.current
         }`);
-        console.log('Fetched courses:', fetchedCourses);
         setCourses(fetchedCourses);
       } catch (error) {
         console.error('Error fetching courses:', error);

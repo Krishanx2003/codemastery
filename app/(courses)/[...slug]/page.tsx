@@ -85,7 +85,9 @@ const CoursePage: React.FC = () => {
     const fetchData = async () => {
       if (slug.length) {
         try {
+          console.log('Fetching data for slug:', slug);
           const fetchedData = await fetchCourseData(slug);
+          console.log('Fetched data:', fetchedData);
           setCourseData(fetchedData);
         } catch (error) {
           console.error('Failed to fetch course data:', error);
@@ -120,7 +122,12 @@ const CoursePage: React.FC = () => {
   return (
     <div className="flex">
       <div className="w-64 pr-4 border-r border-gray-200">
-        <SideNavbar course={course} sections={sections} onSelectSection={handleSelectSection} onSelectLesson={handleSelectLesson} />
+        <SideNavbar 
+          course={course} 
+          sections={sections} 
+          onSelectSection={handleSelectSection} 
+          onSelectLesson={handleSelectLesson} 
+        />
       </div>
       <div className="flex-1 pl-4">
         <CourseHeader title={course.title} />
@@ -128,7 +135,11 @@ const CoursePage: React.FC = () => {
         {selectedLesson ? (
           <LessonContent lesson={selectedLesson} />
         ) : selectedSection ? (
-          <SectionContent section={selectedSection} lessons={selectedSection.lessons} onSelectLesson={handleSelectLesson} />
+          <SectionContent 
+            section={selectedSection} 
+            lessons={selectedSection.lessons} 
+            onSelectLesson={handleSelectLesson} 
+          />
         ) : (
           <div>Select a section or lesson to view the content</div>
         )}

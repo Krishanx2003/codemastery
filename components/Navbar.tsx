@@ -1,80 +1,37 @@
+"use client";
 
-"use client"
+import React, { useState } from 'react';
+import Link from 'next/link';
 
-import { useState } from "react"
-import Link from "next/link"
 
 export default function Navbar() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   return (
-    <header className={`w-full bg-background py-4 px-6 shadow-sm transition-colors ${isDarkMode ? "dark" : ""}`}>
+    <header className={`w-full bg-background py-4 px-6 shadow-sm transition-colors ${isDarkMode ? 'dark' : ''}`}>
       <div className="container mx-auto flex items-center justify-between">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <MountainIcon className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">Acme Docs</span>
+          <span className="text-xl font-bold">CodeMastery</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Explore
-          </Link>
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Courses
-          </Link>
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Docs
-          </Link>
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Blog
-          </Link>
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Changelog
-          </Link>
+          <Link href="/dashboard/explore" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Explore</Link>
+          <Link href="/courses" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Courses</Link>
+
+          <Link href="/dashboard/docs" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Docs</Link>
+          <Link href="/dashboard/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Blog</Link>
+          <Link href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Changelog</Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Link
-            href="#"
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            prefetch={false}
-          >
-            Sign in
-          </Link>
-          <Link
-            href="#"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/50"
-            prefetch={false}
-          >
-            Get started
-          </Link>
-          <button
-            className="rounded-md p-2 text-foreground hover:bg-muted transition-colors"
-            onClick={() => setIsDarkMode(!isDarkMode)}
-          >
-            {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-          </button>
+          <Link href="/dashboard/signin" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Sign in</Link>
+          <Link href="/dashboard/getstarted" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/50" prefetch={false}>Get started</Link>
         </div>
+        <button className="rounded-md p-2 text-foreground hover:bg-muted transition-colors" onClick={() => setIsDarkMode(!isDarkMode)}>
+          {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+        </button>
       </div>
     </header>
-  )
+  );
 }
 
 function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
