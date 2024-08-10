@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -15,19 +15,24 @@ export default function Navbar() {
           <span className="text-xl font-bold">CodeMastery</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/dashboard/explore" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Explore</Link>
-          <Link href="/courses" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Courses</Link>
+          <Link href="/explore" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Explore</Link>
+          <Link href="/courses" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>All Courses</Link>
 
-          <Link href="/dashboard/docs" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Docs</Link>
-          <Link href="/dashboard/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Blog</Link>
+          <Link href="/docs" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Docs</Link>
+          <Link href="/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Blog</Link>
           <Link href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Changelog</Link>
         </nav>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard/signin" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Sign in</Link>
-          <Link href="/dashboard/getstarted" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/50" prefetch={false}>Get started</Link>
+        <div className="flex items-center space-x-4">
+          <SignedOut>
+            <Link href="/sign-in" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Sign in</Link>
+            <Link href="/get-started" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/50" prefetch={false}>Get started</Link>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
         <button className="rounded-md p-2 text-foreground hover:bg-muted transition-colors" onClick={() => setIsDarkMode(!isDarkMode)}>
-          {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+          {isDarkMode ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="h-5 w-5" />}
         </button>
       </div>
     </header>
