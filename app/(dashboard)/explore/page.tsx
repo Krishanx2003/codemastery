@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import React from 'react';
+import Image from 'next/image';
 
 const Explore: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const Explore: React.FC = () => {
             your knowledge and skills.
           </p>
         </div>
-        <img src="/placeholder.svg" alt="Hero Background" fill className="object-cover" />
+        <Image src="/placeholder.svg" alt="Hero Background" fill className="object-cover" />
       </section>
       <main className="mx-auto max-w-6xl space-y-16 px-4 py-12 sm:py-16 lg:py-20">
         <section>
@@ -23,7 +24,7 @@ const Explore: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Course Thumbnail 1"
                 width={400}
@@ -39,7 +40,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Course Thumbnail 2"
                 width={400}
@@ -55,7 +56,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Course Thumbnail 3"
                 width={400}
@@ -79,7 +80,7 @@ const Explore: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Tutorial Thumbnail 1"
                 width={400}
@@ -95,7 +96,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Tutorial Thumbnail 2"
                 width={400}
@@ -111,7 +112,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Tutorial Thumbnail 3"
                 width={400}
@@ -135,7 +136,7 @@ const Explore: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Example Thumbnail 1"
                 width={400}
@@ -149,7 +150,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Example Thumbnail 2"
                 width={400}
@@ -165,7 +166,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Example Thumbnail 3"
                 width={400}
@@ -189,7 +190,7 @@ const Explore: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Reference Thumbnail 1"
                 width={400}
@@ -205,7 +206,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Reference Thumbnail 2"
                 width={400}
@@ -219,7 +220,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Reference Thumbnail 3"
                 width={400}
@@ -243,7 +244,7 @@ const Explore: React.FC = () => {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Blog Thumbnail 1"
                 width={400}
@@ -259,7 +260,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Blog Thumbnail 2"
                 width={400}
@@ -275,7 +276,7 @@ const Explore: React.FC = () => {
               </CardContent>
             </Card>
             <Card>
-              <img
+              <Image
                 src="/placeholder.svg"
                 alt="Blog Thumbnail 3"
                 width={400}
