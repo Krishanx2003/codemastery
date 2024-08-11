@@ -1,7 +1,8 @@
-import { ImgHTMLAttributes } from 'react';
+import clsx from 'clsx'
+import { ImgHTMLAttributes } from 'react'
 
 interface LandingAvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large'
 }
 
 export const LandingAvatar = ({
@@ -26,5 +27,5 @@ export const LandingAvatar = ({
       )}
       {...remainingProps}
     />
-  );
-};
+  )
+}
