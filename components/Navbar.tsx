@@ -20,7 +20,7 @@ export default function Navbar() {
 
           <Link href="/docs" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Docs</Link>
           <Link href="/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Blog</Link>
-          <Link href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>Changelog</Link>
+         
         </nav>
         <div className="flex items-center space-x-4">
           <SignedOut>
