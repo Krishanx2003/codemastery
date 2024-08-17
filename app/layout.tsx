@@ -10,6 +10,7 @@ import {
   ClerkProvider,
  
 } from '@clerk/nextjs';
+import { ThemeProvider } from 'next-themes';
 
 const fontHeading = Inter({
   subsets: ['latin'],
@@ -26,7 +27,6 @@ const fontBody = Inter({
 interface RootLayoutProps {
   children: React.ReactNode;
 }
-
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <ClerkProvider>
@@ -40,6 +40,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
             'flex',
           )}
         >
+             <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
          
             <div className="flex-1 flex flex-col">
               <Navbar />
@@ -49,7 +55,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </main>
               <Footer />
             </div>
-        
+            </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

@@ -9,10 +9,10 @@ export const LandingContainer: React.FC<Props> = ({
   ...props
 }) => {
   return (
-    <main {...props} className="dark">
-      <div className="bg-white text-black dark:bg-black dark:text-slate-200">
+    <main {...props} >
+    
         {children}
-      </div>
+     
     </main>
   )
 }

@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 
+
 export default function Hero() {
   return (
     <section className="w-full bg-[url('/hero-bg.jpg')] bg-cover bg-center py-20 md:py-32 lg:py-40">
@@ -11,10 +12,12 @@ export default function Hero() {
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
               Learn to Code with Comprehensive Tutorials and Examples
             </h1>
-            <p className="text-lg text-muted-foreground md:text-xl">Start your journey in web development today!</p>
+            <p className="text-lg text-muted-foreground md:text-xl">
+              Start your journey in web development today with CodeWeb3.tech!
+            </p>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Link
-                href="#"
+                href="/get-started"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
@@ -27,7 +30,7 @@ export default function Hero() {
             </div>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="#"
+                href="/tutorials/html"
                 className="inline-flex items-center gap-2 rounded-md bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
@@ -35,7 +38,7 @@ export default function Hero() {
                 HTML Tutorial
               </Link>
               <Link
-                href="#"
+                href="/tutorials/css"
                 className="inline-flex items-center gap-2 rounded-md bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
@@ -43,7 +46,7 @@ export default function Hero() {
                 CSS Tutorial
               </Link>
               <Link
-                href="#"
+                href="/tutorials/javascript"
                 className="inline-flex items-center gap-2 rounded-md bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
@@ -51,7 +54,7 @@ export default function Hero() {
                 JavaScript Tutorial
               </Link>
               <Link
-                href="#"
+                href="/certification"
                 className="inline-flex items-center gap-2 rounded-md bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 prefetch={false}
               >
@@ -65,7 +68,7 @@ export default function Hero() {
               <div className="rounded-lg border bg-card p-4">
                 <div className="flex items-center gap-4">
                   <img
-                    src="/placeholder.svg"
+                    src="/boy.svg"
                     width="48"
                     height="48"
                     alt="Testimonial Avatar"
@@ -77,11 +80,10 @@ export default function Hero() {
                   </div>
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  "The tutorials and examples on this website have been\n invaluable in helping me learn web
-                  development. Highly\n recommended!"
+                  "The tutorials and examples on CodeWeb3.tech have been invaluable in helping me learn web development. Highly recommended!"
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              {/* <div className="grid grid-cols-2 gap-4">
                 <img
                   src="/placeholder.svg"
                   width="100"
@@ -110,13 +112,13 @@ export default function Hero() {
                   alt="Partner Logo 4"
                   className="aspect-[2/1] object-contain"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function BadgeIcon(props: React.SVGProps<SVGSVGElement>) {
