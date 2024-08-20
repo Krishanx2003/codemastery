@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import Hero from '@/components/Hero';
 
 import { LandingContainer } from '@/components/designSystem/landing/LandingContainer'
-import { LandingCTA } from '../components/designSystem/landing/LandingCTA'
 import LandingFAQ from '../components/designSystem/landing/LandingFAQ'
 import { LandingFeatures } from '../components/designSystem/landing/LandingFeatures'
-import { LandingHowItWorks } from '../components/designSystem/landing/LandingHowItWorks'
+
+
 import { LandingPainPoints } from '../components/designSystem/landing/LandingPainPoints'
 import { LandingTestimonials } from '../components/designSystem/landing/LandingTestimonials'
 
@@ -24,6 +24,9 @@ import {
   ReadOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
+import { Cover } from '@/components/ui/cover';
+import LandingHowItWorks from '@/components/designSystem/landing/LandingHowItWorks';
+import LandingCTA from '@/components/designSystem/landing/LandingCTA';
 
 const HomePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -167,24 +170,7 @@ const HomePage = () => {
     { url: 'https://i.imgur.com/mJ1sZFv.png' },
   ]
 
-  const steps = [
-    {
-      heading: 'Sign Up',
-      description: 'Create your account to get started. It’s free and easy!',
-    },
-    {
-      heading: 'Explore Resources',
-      description: 'Browse our extensive library of documentation, tutorials, and career resources.',
-    },
-    {
-      heading: 'Start Learning',
-      description: 'Dive into our comprehensive courses and interactive examples to level up your skills.',
-    },
-    {
-      heading: 'Join the Community',
-      description: 'Engage with other learners and professionals in our vibrant community forums and Q&A sections.',
-    },
-  ];
+  
   
 
   const painPoints = [
@@ -291,33 +277,30 @@ const HomePage = () => {
     </div>
   </div>
 </section>
+<main>
 
-      <LandingHowItWorks title="How Tech Haven Works" steps={steps} />
+<LandingHowItWorks />
+
       <LandingFeatures
         id="features"
-        title="Achieve Your Tech Dreams with Tech Haven"
+        title="Achieve Your Tech Dreams with CodeWeb3.tech"
         subtitle="Our platform provides everything you need to succeed in the tech world."
         features={features}
       />
       <LandingTestimonials
         title="Success Stories from Our Users"
-        subtitle="Hear how Tech Haven has transformed the careers of our users."
+        subtitle="Hear how CodeWeb3.tech has transformed the careers of our users."
         testimonials={testimonials}
-      /> 
-      <LandingFAQ
-      id="faq"
-      title="Frequently Asked Questions"
-      subtitle="Got questions? We’ve got answers."
-      questionAnswers={questionAnswers}
-    />
-    <LandingCTA
-      title="Ready to Transform Your Tech Career?"
-        subtitle="Join CodeWeb3.tech today and start your journey."
-        buttonText="Get Started"
-        buttonLink="/register"
       />
-     </LandingContainer>
- 
+      <LandingFAQ
+        id="faq"
+        title="Frequently Asked Questions"
+        subtitle="Got questions? We’ve got answers."
+        questionAnswers={questionAnswers}
+      />
+    <LandingCTA />
+      </main>
+    </LandingContainer>
   );
 };
 

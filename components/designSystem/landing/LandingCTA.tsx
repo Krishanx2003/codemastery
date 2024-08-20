@@ -1,40 +1,58 @@
-import { HTMLAttributes } from 'react'
-import { DesignSystemUtility } from '../../../helpers/utility'
-import LandingButton from './LandingButton'
+import { TypewriterEffectSmooth } from '@/components/ui/typewriter-effect';
+import React from 'react';
 
-interface Props extends HTMLAttributes<HTMLElement> {
-  title?: string
-  subtitle?: string
-  buttonText?: string
-  buttonLink?: string
-}
+const words = [
+  {
+    text: "Join",
+  },
+  {
+    text: "today",
+  },
+  {
+    text: "and",
+  },
+  {
+    text: "start",
+  },
+  {
+    text: "your",
+  },
+  {
+    text: "journey",
+  },
+  {
+    text: "with",
+  },
+  {
+    text: "CodeWeb3.tech.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
 
-export const LandingCTA: React.FC<Props> = ({
-  title,
-  subtitle,
-  buttonText,
-  buttonLink,
-  className,
-  ...props
-}) => {
+
+const LandingCTA = () => {
   return (
-    <section
-      className={DesignSystemUtility.buildClassNames('py-16 px-5', className)}
-      {...props}
-    >
-      <div className="max-w-7xl mx-auto ">
-        <div className="bg-black p-8 md:px-20 md:py-20 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
-          <h2 className="text-white text-4xl lg:text-5xl font-bold lg:tracking-tight">
-            {title}
-          </h2>
-          <p className="text-slate-400 mt-4 text-lg md:text-xl">{subtitle}</p>
-          <div className="flex mt-10">
-            <LandingButton href={buttonLink ?? '/register'} size="lg">
-              {buttonText}
-            </LandingButton>
-          </div>
-        </div>
+    <div className="flex flex-col items-center justify-center h-[40rem]">
+      <p className="text-neutral-600 dark:text-neutral-200 text-lg sm:text-xl md:text-2xl">
+      Ready to Transform Your Tech Career
+      </p>
+      <TypewriterEffectSmooth words={words} />
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+        <button 
+          className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm" 
+          aria-label="Join now"
+        >
+          Join now
+        </button>
+        <button 
+          className="w-40 h-10 rounded-xl bg-white text-black border border-black text-sm" 
+          aria-label="Sign up"
+        >
+          Signup
+        </button>
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
+
+export default LandingCTA;

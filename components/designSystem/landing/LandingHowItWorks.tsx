@@ -1,47 +1,47 @@
-import { HTMLAttributes } from 'react'
-import { DesignSystemUtility } from '../../../helpers/utility'
+import { HoverEffect } from '@/components/ui/card-hover-effect';
+import { Cover } from '@/components/ui/cover';
+import React from 'react';
 
-type StepType = {
-  heading: string
-  description: string | any
+interface Project {
+  title: string;
+  description: string;
+  link: string;
 }
 
-interface Props extends HTMLAttributes<HTMLElement> {
-  title: string
-  subtitle?: string
-  steps: StepType[]
-}
-
-export const LandingHowItWorks: React.FC<Props> = ({
-  title,
-  subtitle = '',
-  steps,
-  className,
-  ...props
-}) => {
+const LandingHowItWorks: React.FC = () => {
   return (
-    <section
-      className={DesignSystemUtility.buildClassNames('py-16 px-5', className)}
-      {...props}
-    >
-      <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-          {title}
-        </h2>
-        <div className="max-w-xl space-y-8 mt-12 mx-auto">
-          {steps.map((item, idx) => (
-            <div key={idx} className="flex items-start">
-              <div className="flex-shrink-0 w-16 h-16 bg-gray-200 dark:bg-slate-800 rounded-full flex items-center justify-center text-2xl font-bold ">
-                {idx + 1}
-              </div>
-              <div className="ml-4 text-left">
-                <h3 className="font-semibold text-lg ">{item.heading}</h3>
-                <p className="dark:text-slate-400">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div>
+      <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
+        How <Cover>CodeWeb3.tech</Cover> Works
+      </h1>
+      <div className="max-w-6xl mx-auto px-8">
+        <HoverEffect items={projects} />
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
+
+export default LandingHowItWorks;
+
+const projects: Project[] = [
+  {
+    title: 'Sign Up',
+    description: 'Create your account to get started. It’s free and easy!',
+    link: 'http://localhost:3000/',
+  },
+  {
+    title: 'Explore Resources',
+    description: 'Browse our extensive library of documentation, tutorials, and career resources.',
+    link: 'http://localhost:3000/',
+  },
+  {
+    title: 'Start Learning',
+    description: 'Dive into our comprehensive courses and interactive examples to level up your skills.',
+    link: 'http://localhost:3000/',
+  },
+  {
+    title: 'Join the Community',
+    description: 'Engage with other learners and professionals in our vibrant community forums and Q&A sections.',
+    link: 'http://localhost:3000/',
+  },
+];
