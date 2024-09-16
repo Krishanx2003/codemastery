@@ -1,42 +1,41 @@
-// src/components/CourseContent.tsx
 import React from 'react';
-import BlockContent from '@sanity/block-content-to-react';
-import { CourseContentProps } from '../types/sanity';
+import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { CourseContentProps, Block, CodeBlock, Image } from '../types/sanity';
 import { urlFor } from '../lib/createClient';
-import CodeBlock from './CodeBlock';
+import CodeBox from './CodeBox';
 
-// Define serializers for custom rendering of Sanity block content
-const serializers = {
+const serializers: Partial<PortableTextComponents> = {
   types: {
-    block: (props: any) => {
-      const { style = 'normal' } = props.node;
+    block: ({ value }) => {
+      const style = value.style;
 
       switch (style) {
         case 'h1':
-          return <h1>{props.children}</h1>;
+          return <h1 className="text-4xl font-extrabold mb-4">{value.children.map((child: any, index: number) => <span key={index}>{child.text}</span>)}</h1>;
         case 'h2':
-          return <h2>{props.children}</h2>;
+          return <h2 className="text-3xl font-bold mb-3">{value.children.map((child: any, index: number) => <span key={index}>{child.text}</span>)}</h2>;
         case 'h3':
-          return <h3>{props.children}</h3>;
+          return <h3 className="text-2xl font-semibold mb-2">{value.children.map((child: any, index: number) => <span key={index}>{child.text}</span>)}</h3>;
         case 'blockquote':
-          return <blockquote>{props.children}</blockquote>;
+          return <blockquote className="border-l-4 border-gray-300 pl-4 italic text-lg">{value.children.map((child: any, index: number) => <span key={index}>{child.text}</span>)}</blockquote>;
         default:
-          return <p>{props.children}</p>;
+          return <p className="text-base mb-2">{value.children.map((child: any, index: number) => <span key={index}>{child.text}</span>)}</p>;
       }
     },
-    image: (props: any) => {
-      return <img src={urlFor(props.node.asset).url()} alt={props.node.alt} />;
+    image: ({ value }) => {
+      return <img src={urlFor(value.asset).url()} alt={value.alt} className="w-full rounded-lg my-4" />;
     },
-    code: (props: any) => {
-      return <CodeBlock code={props.node.code} />;
-    }
+    codeBlock: ({ value }) => {
+      return <CodeBox code={value.code} language={value.language} name={value.name} classic={value.classic} />;
+    },
   },
-  list: (props: any) => {
-    const { type } = props;
-    const bullet = type === 'bullet';
-    return bullet ? <ul>{props.children}</ul> : <ol>{props.children}</ol>;
+  list: {
+    bullet: ({ children }) => <ul className="list-disc list-inside mb-4">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal list-inside mb-4">{children}</ol>,
   },
-  listItem: (props: any) => <li>{props.children}</li>
+  listItem: {
+    bullet: ({ children }) => <li className="ml-4 mb-2">{children}</li>,
+  },
 };
 
 const CourseContent: React.FC<CourseContentProps> = ({ content, image }) => {
@@ -47,12 +46,12 @@ const CourseContent: React.FC<CourseContentProps> = ({ content, image }) => {
     <section className="mb-8">
       <img src={imageUrl} alt={altText} className="mb-4" />
       {content ? (
-        <BlockContent blocks={content} serializers={serializers} />
+        <PortableText value={content} components={serializers} />
       ) : (
         <p>No content available</p>
       )}
     </section>
   );
-}
+};
 
 export default CourseContent;
