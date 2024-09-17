@@ -1,6 +1,3 @@
-// types/sanity.ts
-
-
 export interface Image {
   _type: 'image';
   asset: {
@@ -9,20 +6,28 @@ export interface Image {
   };
 }
 
-
-
 export interface Block {
   _key: string;
   _type: string;
-  children: Array<{
+  style?: string;  // Make sure this is included and optional
+  children?: Array<{
     _key: string;
     _type: string;
     text: string;
   }>;
+  code?: string;
+  language?: string;
+}
+
+
+export interface CodeBlock extends Block {
+  _type: 'codeBlock';
+  code: string;
+  language: string;
 }
 
 export interface CourseContentProps {
-  content: Block[];
+  content: Array<Block | CodeBlock>;
   image?: Image;
 }
 
@@ -37,7 +42,7 @@ export interface Lesson {
   section?: {
     _ref: string;
   };
-  content: Block[];
+  content: Array<Block | CodeBlock>;
 }
 
 export interface Section {
@@ -47,7 +52,7 @@ export interface Section {
     current: string;
   };
   description: string;
-  content: Block[];
+  content: Array<Block | CodeBlock>;
   lessons: Lesson[];
 }
 
@@ -55,7 +60,7 @@ export interface Course {
   _id: string;
   title: string;
   description: string;
-  content: Block[];
+  content: Array<Block | CodeBlock>;
   image: Image;
   slug: {
     current: string;

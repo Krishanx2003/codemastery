@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image"
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
@@ -15,8 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session } = useSession();
   return (
     <header className="w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -43,22 +45,30 @@ export default function Navbar() {
           <Link href="/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>
             Blog
           </Link>
-          <Link href="/blog/new" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>
-            Create Blog
-          </Link>
+         
+          {session ? (
+            <>
+              <Link href="/blog/new" className="text-neutral-300 hover:text-neutral-200">
+                Create Blog 
+              </Link>
+           
+              <button onClick={() => signOut()} className="text-neutral-300 hover:text-neutral-200">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-neutral-300 hover:text-neutral-200">
+                Login
+              </Link>
+              <Link href="/register" className="text-neutral-300 hover:text-neutral-200">
+                Register
+              </Link>
+            </>
+          )}
         </nav>
         <div className="flex items-center space-x-4">
-          <SignedOut>
-            <Link href="/sign-in" className="text-sm font-medium text-foreground hover:text-primary transition-colors" prefetch={false}>
-              Sign in
-            </Link>
-            <Link href="/get-started" className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" prefetch={false}>
-              Get started
-            </Link>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+         
           <ModeToggle />
           <Sheet>
           <SheetTrigger asChild>
@@ -76,7 +86,28 @@ export default function Navbar() {
               <a href="/blog" className="font-medium hover:underline">Blog</a>
               <a href="/blog/new" className="font-medium hover:underline">Create Blog</a>
               <a href="/sign-in" className="font-medium hover:underline">Sign in</a>
-              <a href="/get-started" className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">Get started</a>
+              {session ? (
+            <>
+              <Link href="/create" className="text-neutral-300 hover:text-neutral-200">
+                Create Blog 
+              </Link>
+              <Link className="rounded-md py-1 px-2 sm:py-2 sm:px-4 bg-blue-600 text-white" href={'/newjobs'}>
+            Post a job
+          </Link>
+              <button onClick={() => signOut()} className="text-neutral-300 hover:text-neutral-200">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-neutral-300 hover:text-neutral-200">
+                Login
+              </Link>
+              <Link href="/register" className="text-neutral-300 hover:text-neutral-200">
+                Register
+              </Link>
+            </>
+          )}
             </div>
           </SheetContent>
         </Sheet>
