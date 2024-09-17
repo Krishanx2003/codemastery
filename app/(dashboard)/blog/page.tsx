@@ -1,134 +1,90 @@
-import React from 'react'
+// app/blog/page.tsx
+"use client";
 
-const Blog = () => {
+import { useEffect, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
+import { PostResponse } from '@/types/types';
+
+export default function Posts() {
+  const [posts, setPosts] = useState<PostResponse[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<PostResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data: PostResponse[] = await response.json();
+        setPosts(data);
+        setFilteredPosts(data);
+      } catch (error) {
+        setError('Error fetching posts. Please try again later.');
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Filter posts based on search term
+  useEffect(() => {
+    if (searchTerm) {
+      setFilteredPosts(posts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchTerm.toLowerCase())
+      ));
+    } else {
+      setFilteredPosts(posts);
+    }
+  }, [searchTerm, posts]);
+
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Mastering the Fundamentals of Documentation</h2>
-            <p className="text-muted-foreground mb-4">
-              Learn the essential techniques for creating clear and concise documentation that helps users understand
-              and utilize your product.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">August 9, 2024</span>
-            </div>
-          </div>
-        </article>
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Effective Strategies for Technical Writing</h2>
-            <p className="text-muted-foreground mb-4">
-              Discover the best practices for crafting clear, concise, and user-friendly technical documentation.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">July 28, 2024</span>
-            </div>
-          </div>
-        </article>
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Navigating the Documentation Landscape</h2>
-            <p className="text-muted-foreground mb-4">
-              Explore the various types of documentation and how to choose the right approach for your project.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">June 15, 2024</span>
-            </div>
-          </div>
-        </article>
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Crafting Engaging Documentation</h2>
-            <p className="text-muted-foreground mb-4">
-              Learn how to create documentation that captivates your audience and helps them understand your product.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">May 3, 2024</span>
-            </div>
-          </div>
-        </article>
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Optimizing Documentation for SEO</h2>
-            <p className="text-muted-foreground mb-4">
-              Discover strategies for improving the visibility and discoverability of your documentation content.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">April 20, 2024</span>
-            </div>
-          </div>
-        </article>
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
-          <img
-            src="/placeholder.svg"
-            alt="Blog Post Image"
-            width="400"
-            height="200"
-            className="w-full h-48 object-cover"
-            style={{ aspectRatio: "400/200", objectFit: "cover" }}
-          />
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-2">Collaborative Documentation Workflows</h2>
-            <p className="text-muted-foreground mb-4">
-              Explore best practices for managing documentation projects with a team and ensuring consistent,
-              high-quality content.
-            </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span>Published on</span>
-              <span className="ml-2">March 12, 2024</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  )
-}
+    <div className="max-w-2xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">All Posts</h1>
 
-export default Blog
+      <input
+        type="text"
+        placeholder="Search posts..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-6 p-2 border border-gray-300 rounded"
+      />
+
+      {loading && <p>Loading posts...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      
+      {!loading && !error && filteredPosts.length === 0 && (
+        <p className="text-gray-500">No posts available.</p>
+      )}
+
+      {!loading && !error && filteredPosts.length > 0 && (
+        <ul className="space-y-6">
+          {filteredPosts.map(post => (
+            <li key={post._id} className="border-b last:border-none pb-4">
+              <Card className="w-full rounded-lg overflow-hidden">
+                <CardContent className="p-6">
+                  <Link href={`/blog/${post._id}`}>
+                    <h3 className="text-2xl font-bold hover:underline">
+                      {post.title}
+                    </h3>
+                  </Link>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {post.content.substring(0, 150)}...
+                  </p>
+                </CardContent>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}

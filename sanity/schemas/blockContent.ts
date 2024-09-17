@@ -35,9 +35,6 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
     }),
-    defineArrayMember({
-      type: 'codeBlock', // Make sure this matches the name in codeBlock.ts
-      title: 'Code Block',
-    }),
+    defineArrayMember(codeBlock), // Include the codeBlock schema directly
   ],
 });

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { client } from '../../../lib/createClient';
+import { client } from "../../../lib/createClient"
 import { Course, Section, Lesson } from '../../../types/sanity';
 import CourseHeader from '../../../components/CourseHeader';
 import CourseContent from '../../../components/CourseContent';
@@ -10,52 +10,47 @@ import SideNavbar from '../../../components/SideNavbar';
 import LessonContent from '../../../components/LessonContent';
 import SectionContent from '../../../components/SectionContent';
 
-interface Props {
-  course: Course;
-  sections: Section[];
-  lessons: Lesson[];
-}
-
-const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
+// Function to fetch course data
+const fetchCourseData = async (slug: string[]): Promise<{ course: Course; sections: Section[]; lessons: Lesson[] } | null> => {
   const [courseSlug] = slug;
 
-  try {
-    const courseQuery = `*[_type == "course" && slug.current == $courseSlug][0]{
+  const courseQuery = `*[_type == "course" && slug.current == $courseSlug][0]{
+    _id,
+    title,
+    description,
+    content,
+    image {
+      _type,
+      asset->{
+        _ref,
+        _type
+      }
+    },
+    "slug": slug.current,
+    "sections": sections[]->{
       _id,
       title,
+      "slug": slug.current,
       description,
       content,
-      image {
-        _type,
-        asset->{
-          _ref,
-          _type
-        }
-      },
-      "slug": slug.current,
-      "sections": sections[]->{
+      "lessons": lessons[]->{
         _id,
         title,
-        "slug": slug.current,
         description,
         content,
-        "lessons": lessons[]->{
-          _id,
-          title,
-          description,
-          content,
-          image {
-            _type,
-            asset->{
-              _ref,
-              _type
-            }
-          },
-          "slug": slug.current
-        }
+        image {
+          _type,
+          asset->{
+            _ref,
+            _type
+          }
+        },
+        "slug": slug.current
       }
-    }`;
+    }
+  }`;
 
+  try {
     const course = await client.fetch<Course>(courseQuery, { courseSlug });
     if (!course) return null;
 
@@ -75,8 +70,8 @@ const fetchCourseData = async (slug: string[]): Promise<Props | null> => {
 
 const CoursePage: React.FC = () => {
   const pathname = usePathname();
-  const slug = pathname.split('/').slice(2);
-  const [courseData, setCourseData] = useState<Props | null>(null);
+  const slug = pathname?.split('/').slice(2) || []; // Safeguard for undefined pathname
+  const [courseData, setCourseData] = useState<{ course: Course; sections: Section[]; lessons: Lesson[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
