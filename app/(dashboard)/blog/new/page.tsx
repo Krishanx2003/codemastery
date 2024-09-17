@@ -1,19 +1,20 @@
-// (dashboard)/blog/new/page.tsx
-'use client';
+"use client";
 
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { UploadButton } from '@/utils/uploadthing';
 
 export default function New() {
-  const { data: session } = useSession(); // Fetch the authenticated user session
+  const { data: session } = useSession();
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
-  const [cover, setCover] = useState('');
+  const [cover, setCover] = useState<string | null>(null);
   const [categories, setCategories] = useState('');
   const [tags, setTags] = useState('');
   const [published, setPublished] = useState(false);
@@ -21,13 +22,20 @@ export default function New() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const router = useRouter(); // Initialize Next.js router
+
+  const handleImageUpload = (res: { url: string }[]) => {
+    if (res.length > 0) {
+      setCover(res[0].url);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
 
-    // Ensure that the user is logged in
     if (!session || !session.user || !session.user.id) {
       setError('You must be logged in to create a post.');
       setLoading(false);
@@ -53,11 +61,12 @@ export default function New() {
         setTitle('');
         setSummary('');
         setContent('');
-        setCover('');
+        setCover(null);
         setCategories('');
         setTags('');
         setPublished(false);
         setSuccess('Post created successfully!');
+        router.push('/blog'); // Redirect to blog page after successful submission
       } else {
         const errorMessage = await res.text();
         setError(`Failed to create post: ${errorMessage}`);
@@ -108,16 +117,15 @@ export default function New() {
 
         <div>
           <Label htmlFor="cover" className="block text-sm font-medium text-gray-700">
-            Cover Image URL
+            Cover Image
           </Label>
           <div className="mt-1">
-            <Input
-              value={cover}
-              onChange={(e) => setCover(e.target.value)}
-              name="cover"
-              type="text"
-              placeholder="Enter the cover image URL"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={handleImageUpload}
+              onUploadError={(error: Error) => {
+                setError(`ERROR! ${error.message}`);
+              }}
             />
           </div>
         </div>

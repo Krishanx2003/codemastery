@@ -1,10 +1,11 @@
-// app/blog/page.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { JSX, SVGProps, useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
+import Image from 'next/image'; // Import Next.js Image component
 import { PostResponse } from '@/types/types';
+import { Input } from '@/components/ui/input';
 
 export default function Posts() {
   const [posts, setPosts] = useState<PostResponse[]>([]);
@@ -47,44 +48,78 @@ export default function Posts() {
   }, [searchTerm, posts]);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">All Posts</h1>
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 md:px-6 md:py-12">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6 md:mb-8">
+        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Our Blog</h1>
+        <div className="relative w-full max-w-md mt-4 md:mt-0">
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search posts..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 rounded-md bg-gray-100 text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+          />
+        </div>
+      </div>
 
-      <input
-        type="text"
-        placeholder="Search posts..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-6 p-2 border border-gray-300 rounded"
-      />
+      {loading && <p className="text-center">Loading posts...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
-      {loading && <p>Loading posts...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      
       {!loading && !error && filteredPosts.length === 0 && (
-        <p className="text-gray-500">No posts available.</p>
+        <p className="text-gray-500 text-center">No posts available.</p>
       )}
 
       {!loading && !error && filteredPosts.length > 0 && (
-        <ul className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.map(post => (
-            <li key={post._id} className="border-b last:border-none pb-4">
-              <Card className="w-full rounded-lg overflow-hidden">
-                <CardContent className="p-6">
-                  <Link href={`/blog/${post._id}`}>
-                    <h3 className="text-2xl font-bold hover:underline">
-                      {post.title}
-                    </h3>
-                  </Link>
-                  <p className="text-sm text-muted-foreground mt-2">
+            <Card key={post._id} className="bg-white shadow-md rounded-md overflow-hidden">
+              <Link href={`/blog/${post._id}`} className="block">
+                {post.cover && (
+                  <Image
+                    src={post.cover}
+                    alt={post.title}
+                    width={600}
+                    height={400}
+                    className="w-full h-48 object-cover"
+                    style={{ aspectRatio: "600/400" }}
+                  />
+                )}
+                <div className="p-4">
+                  <h2 className="text-lg font-bold tracking-tight mb-2">{post.title}</h2>
+                  <p className="text-gray-600 text-sm">
                     {post.content.substring(0, 150)}...
                   </p>
-                </CardContent>
-              </Card>
-            </li>
+                  <div className="flex items-center">
+              <span className="bg-primary text-primary-foreground px-2 py-1 rounded-md text-xs font-medium">{post.categories}</span>
+            </div>
+                </div>
+              </Link>
+            </Card>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
 }
+
+function SearchIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  )
+}
+

@@ -35,38 +35,59 @@ export default function PostDetail() {
     fetchPost();
   }, [id]); // Add id as a dependency
 
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      {loading && <p>Loading post details...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+  if (loading) {
+    return <p className="text-center mt-6">Loading post details...</p>;
+  }
 
+  if (error) {
+    return <p className="text-center mt-6 text-red-500">{error}</p>;
+  }
+
+  return (
+    <div className="bg-background text-foreground">
       {!loading && !error && post && (
-        <Card className="w-full rounded-lg overflow-hidden">
-          <CardContent className="p-6 space-y-4">
-            <h1 className="text-3xl font-bold">{post.title}</h1>
+        <div className="px-4 py-6 md:px-6 lg:py-12">
+          <div className="mx-auto max-w-3xl">
+            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl lg:leading-[3.5rem]">{post.title}</h1>
+            <p className="text-muted-foreground mt-2">{post.summary}</p>
+            
             {post.cover && (
-              <img
-                src={post.cover}
-                alt={post.title}
-                className="w-full h-auto mb-4 rounded"
-              />
+              <div className="mt-6">
+                <img
+                  src={post.cover}
+                  alt={post.title}
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
             )}
-            <p className="text-muted-foreground text-sm">{post.summary}</p>
-            <p className="mt-4">{post.content}</p>
-            <div className="mt-4">
-              <strong>Category:</strong> {post.categories}
-            </div>
-            <div>
-              <strong>Tags:</strong> {post.tags?.join(', ')}
-            </div>
-            <div>
-              <strong>Published:</strong> {post.published ? 'Yes' : 'No'}
-            </div>
-            <div className="mt-4">
+
+            <article className="prose prose-gray dark:prose-invert mt-8">
+              <p>{post.content}</p>
+            </article>
+
+            <aside className="bg-muted mt-8 px-4 py-6 rounded-lg">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Categories</h3>
+                  <p>{post.categories}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold">Tags</h3>
+                  <p>{post.tags?.join(', ')}</p>
+                </div>
+
+                <div>
+                  <strong>Published:</strong> {post.published ? 'Yes' : 'No'}
+                </div>
+              </div>
+            </aside>
+
+            <div className="mt-6">
               <Button onClick={() => router.push(`/blog/${id}/edit`)}>Edit Post</Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   );
