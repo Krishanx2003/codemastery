@@ -66,4 +66,21 @@
   body {
     @apply bg-background text-foreground;
   }
+
+.code-block {
+  background-color: var(--background); /* Use your background variable */
+  color: var(--foreground); /* Use your foreground variable */
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0;
+}
+
+.code-block code {
+  font-family: monospace;
+}
 }

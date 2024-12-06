@@ -6,11 +6,9 @@ import Footer from '../components/Footer';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import '../styles/globals.css';
-import {
-  ClerkProvider,
- 
-} from '@clerk/nextjs';
-import { ThemeProvider } from 'next-themes';
+import { Provider } from '@/utils/provider';
+
+
 
 const fontHeading = Inter({
   subsets: ['latin'],
@@ -29,7 +27,7 @@ interface RootLayoutProps {
 }
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <ClerkProvider>
+  
       <html lang="en" suppressHydrationWarning>
         <head />
         <body
@@ -40,13 +38,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             'flex',
           )}
         >
-             <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-         
+           <Provider>
+           
             <div className="flex-1 flex flex-col">
               <Navbar />
               <main className="flex-1 p-0">
@@ -55,9 +48,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </main>
               <Footer />
             </div>
-            </ThemeProvider>
+            </Provider>
         </body>
       </html>
-    </ClerkProvider>
+
   );
 }

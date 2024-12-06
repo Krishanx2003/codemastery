@@ -1,13 +1,38 @@
-import mongoose from 'mongoose';
+import { Schema, Document, model, models } from 'mongoose';
 
-const PostSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  content: { type: String, required: true },
-  image: { type: String, required: true }, // Storing image as a URL or file path
-  category: { type: String, required: true }, // Category added
-  slug: { type: String, required: true, unique: true },
-  date: { type: Date, default: Date.now }, // Added date field
+export interface IPost extends Document {
+  title: string;
+  content: string;
+  summary: string;
+  cover?: string;
+  userId: Schema.Types.ObjectId;
+  categories: string[];
+  tags: string[];
+  published: boolean;
+  publishedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const postSchema = new Schema<IPost>({
+  title: { type: String, required: true, trim: true },
+  content: { type: String, required: true, trim: true },
+  summary: { type: String, required: true, maxlength: 200, trim: true },
+  cover: { type: String, trim: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  categories: [{ type: String, trim: true }],
+  tags: [{ type: String, trim: true }],
+  published: { type: Boolean, default: false },
+  publishedAt: { type: Date },
+}, { timestamps: true });
+
+postSchema.pre('save', function(next) {
+  if (this.isModified('published') && this.published && !this.publishedAt) {
+    this.publishedAt = new Date();
+  }
+  next();
 });
 
-export default mongoose.models.Post || mongoose.model('Post', PostSchema);
+const Post = models.Post || model<IPost>('Post', postSchema);
+
+export default Post;
